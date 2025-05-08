@@ -102,7 +102,7 @@ BSCProject/
 
 - Node.js v14+
 - npm v6+
-- Truffle v5.11.5+
+- Hardhat v2.0+
 
 ### 安装依赖
 
@@ -113,13 +113,13 @@ npm install
 ### 编译合约
 
 ```bash
-truffle compile
+npx hardhat compile
 ```
 
 ### 部署到本地测试网络
 
 ```bash
-truffle migrate --network development
+npx hardhat node
 ```
 
 ### 部署到 BSC 测试网
@@ -134,40 +134,41 @@ BSC_API_KEY=您的BSC API密钥
 2. 执行部署命令：
 
 ```bash
-truffle migrate --network bscTestnet
+npx hardhat run scripts/deploy.js --network bscTestnet
 ```
 
 ### 部署到 BSC 主网
 
 ```bash
-truffle migrate --network bsc
+npx hardhat run scripts/deploy.js --network bsc
 ```
 
 ## 测试
 
 ```bash
-truffle test
+npx hardhat test
 ```
 
 ## 合约交互
 
-部署完成后，可以通过 Truffle 控制台或前端应用与合约进行交互。
+部署完成后，可以通过 Hardhat 控制台或前端应用与合约进行交互。
 
-### 使用 Truffle 控制台
+### 使用 Hardhat 控制台
 
 ```bash
-truffle console --network development
+npx hardhat console --network localhost
 ```
 
 然后可以使用 JavaScript 与合约交互，例如：
 
 ```javascript
 // 获取主币合约实例
-let mainToken = await MainToken.deployed()
+const MainToken = await ethers.getContractFactory("MainToken");
+const mainToken = await MainToken.attach("部署后主币合约地址");
 
 // 查询总供应量
-let totalSupply = await mainToken.totalSupply()
-console.log(totalSupply.toString())
+const totalSupply = await mainToken.totalSupply();
+console.log(totalSupply.toString());
 ```
 
 ## 安全注意事项
@@ -178,4 +179,4 @@ console.log(totalSupply.toString())
 
 ## 许可证
 
-MIT# BSCProject
+MIT
