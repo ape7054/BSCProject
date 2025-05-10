@@ -18,33 +18,23 @@ async function main() {
 
   // 部署主币合约
   console.log("部署主币合约...");
-  const MainToken = await ethers.getContractFactory("MainToken");
+  const name = "MainToken";
+  const symbol = "MTK";
   const initialSupply = 36500000;
-  const distributors = [
-    // 这里需要替换为实际地址
-    "0x...", // 1000万
-    "0x...", // 2000万
-    "0x...", // 400万
-    "0x...", // 150万
-    "0x..."  // 100万
+  const distributor = [
+    "0x1111111111111111111111111111111111111111",
+    "0x2222222222222222222222222222222222222222",
+    "0x3333333333333333333333333333333333333333",
+    "0x4444444444444444444444444444444444444444",
+    "0x5555555555555555555555555555555555555555"
   ];
-  const amounts = [
-    10000000, // 1000万
-    20000000, // 2000万
-    4000000,  // 400万
-    1500000,  // 150万
-    1000000   // 100万
-  ];
-  const mainToken = await MainToken.deploy(
-    "BSC Project Token",
-    "BSCP",
-    initialSupply,
-    distributors,
-    amounts,
-    deployer.address
-  );
+  const amounts = [10000000, 20000000, 4000000, 1500000, 1000000];
+  const feeReceiver = "0xFEE0000000000000000000000000000000000000";
+
+  const MainToken = await ethers.getContractFactory("MainToken");
+  const mainToken = await MainToken.deploy(name, symbol, initialSupply, distributor, amounts, feeReceiver);
   await mainToken.deployed();
-  console.log("主币合约已部署到:", mainToken.address);
+  console.log("MainToken deployed to:", mainToken.address);
 
   // 部署其他合约...
   // ... 其他合约的部署代码与原来类似，只需要将语法改为ethers.js的方式
